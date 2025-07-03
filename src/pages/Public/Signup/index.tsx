@@ -1,4 +1,4 @@
-import { Button, CheckboxInput, PhoneInput, TextInput } from "@/components";
+import { Button, CheckboxInput, PasswordInput, PhoneInput, TextInput } from "@/components";
 import { Label } from "@/components/ui/label";
 import { Controller, Resolver, useForm } from "react-hook-form";
 import { parsePhoneNumber } from "react-phone-number-input";
@@ -8,6 +8,9 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { login } from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { userSignup } from "./actions";
+import { useMutation } from "@tanstack/react-query";
+import Loader from "@/components/custom/Loader";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -24,25 +27,25 @@ const Signup = () => {
     mode: "onSubmit",
   });
 
-  // const { data: productOfferedList = [], isLoading } = useQuery({
-  //   queryKey: ["getProductOffered"],
-  //   queryFn: () => getProductOffered(),
-  //   select: (data) => data?.data?.data,
-  // })
-
-  // const { mutate, isPending } = useMutation({
-  //   mutationKey: ["userSignup"],
-  //   mutationFn: userSignup,
-  //   onSuccess: ({ data }) => {
-  //     if (data && data?.data && data.data?.length > 0) {
-  //       setUserId(data.data[0]?.id)
-  //       setName(data.data[0]?.name)
-  //       setEmail(data.data[0]?.email)
-  //     }
-  //     toaster.success("User registered successfully.")
-  //     navigate("/email-verification")
-  //   },
-  // })
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["userSignup"],
+    mutationFn: userSignup,
+    onSuccess: ({ data }) => {
+      console.log("🚀 ~ Signup ~ data:", data);
+      if (data && data?.data && data.data?.length > 0) {
+        dispatch(
+          login({
+            token: "23452asnjnfj*$&78478kjHHHbfjksfnj",
+          })
+        );
+        // setUserId(data.data[0]?.id)
+        // setName(data.data[0]?.name)
+        // setEmail(data.data[0]?.email)
+      }
+      // toaster.success("User registered successfully.")
+      // navigate("/email-verification")
+    },
+  });
 
   const onSubmit = ({ phone, ...rest }: ISignup) => {
     const parsedNumber = parsePhoneNumber(phone as string);
@@ -52,12 +55,8 @@ const Signup = () => {
       ...rest,
     };
     console.log("payload", payload);
-    dispatch(
-      login({
-        token: "23452asnjnfj*$&78478kjHHHbfjksfnj",
-      })
-    );
-    // mutate(payload)
+
+    mutate(payload);
   };
 
   return (
@@ -102,6 +101,15 @@ const Signup = () => {
                 error={errors?.phone?.message}
               />
             </div>
+            <div className="w-full">
+              <Controller
+                name="password"
+                control={control}
+                render={({ field }) => (
+                  <PasswordInput {...field} label="Password" placeholder="Enter password" error={errors?.password?.message} />
+                )}
+              />
+            </div>
             {/* <div className="w-full">
                 <Controller
                   name="country"
@@ -111,8 +119,7 @@ const Signup = () => {
               </div> */}
             <div className="w-full flex justify-center mt-2 mb-2">
               <Button className="w-full h-12 text-lg" type="submit">
-                Submit
-                {/* {isPending && <Loader color="white" />}Submit */}
+                {isPending && <Loader color="white" />}Submit
               </Button>
             </div>
             <div className="flex items-center content-center gap-2">

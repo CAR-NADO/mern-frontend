@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import { ILogin, loginDef, loginSchema } from "./constants";
 import { AppDispatch } from "@/redux/store";
 import { login } from "@/redux/slices/authSlice";
-import { Button, TextInput } from "@/components";
+import { Button, PasswordInput, TextInput } from "@/components";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   const {
@@ -77,7 +77,7 @@ const Login = () => {
                 name="password"
                 control={control}
                 render={({ field }) => (
-                  <TextInput {...field} label="Password" placeholder="Enter password" error={errors?.password?.message} />
+                  <PasswordInput {...field} label="Password" placeholder="Enter password" error={errors?.password?.message} />
                 )}
               />
             </div>
