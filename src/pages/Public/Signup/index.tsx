@@ -54,7 +54,7 @@ const Signup = () => {
       phone: parsedNumber?.nationalNumber,
       ...rest,
     };
-    console.log("payload", payload);
+    // console.log("payload", payload);
 
     mutate(payload);
   };
@@ -152,7 +152,7 @@ const Signup = () => {
       </form>
 
       {/* Right Side - Images */}
-      <div className="relative grid grid-cols-2 gap-4">
+      {/* <div className="relative grid grid-cols-2 gap-4">
         <div className="space-y-4">
           <img
             src="https://images.unsplash.com/photo-1748015879337-ef95556c3749?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -177,7 +177,7 @@ const Signup = () => {
             className="rounded-xl shadow-lg"
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

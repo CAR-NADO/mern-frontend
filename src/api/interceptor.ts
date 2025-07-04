@@ -44,7 +44,7 @@ apiClient.interceptors.response.use(
       // document.dispatchEvent(logoutUserEvent);
       console.log("status 401 now user should be logout.")
     }
-    console.log("APIs error", error?.response?.data?.data?.[0]?.msg)
+    console.log("APIs error", error)
     // toaster.error(error?.response?.data?.data?.[0]?.msg ?? "Something went wrong", {
     //   autoClose: 5000,
     //   position: "top-left",
